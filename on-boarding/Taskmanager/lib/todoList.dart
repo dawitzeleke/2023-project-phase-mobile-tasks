@@ -1,27 +1,25 @@
-import 'dart:ffi';
-
+import 'package:add_task/taskModel.dart';
 import 'package:flutter/material.dart';
 
-class TodoList extends StatefulWidget {
-  const TodoList({super.key});
+import 'addTask.dart';
+import 'controller/controller.dart';
 
+class TodoList extends StatefulWidget {
   @override
   State<TodoList> createState() => _TodoListState();
 }
 
 class _TodoListState extends State<TodoList> {
-
-  List<TodoListItem> todolist = [
-    TodoListItem(title: "UI/UX Design", leading: "U", color: Colors.red, dueDate: "April. 29, 2023"),
-    TodoListItem(title: "View candidates", leading: "V", color: Colors.yellow, dueDate: "April. 29, 2023"),
-    TodoListItem(title: "Football cu Drybling", leading: "F", color: Colors.red, dueDate: "April. 29, 2023")
-  ];
-
   @override
   Widget build(BuildContext context) {
+    TaskController taskcontroller = TaskController();
+    List<Task> taskList = taskcontroller.taskManager.viewAllTasks();
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Add Task",
+      title: "Task manager",
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -39,22 +37,17 @@ class _TodoListState extends State<TodoList> {
               textAlign: TextAlign.center,
             ),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.more_vert,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            ),
-          ],
         ),
-        body: Column(
+        body: SingleChildScrollView( child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Image.asset("assets/images/image1.png"),
+              child: Image.asset(
+                "assets/images/image1.png",
+                // width: width * 1,
+                // height: height * 1,
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20),
@@ -67,13 +60,19 @@ class _TodoListState extends State<TodoList> {
                 ),
               ),
             ),
-              // ListView.builder(
-              //     shrinkWrap: true,
-              //     itemCount: todolist.length,
-              //    itemBuilder: (context, index) {
-              //      return todolist[index];
-              //    },
-              //  ),
+
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: taskList.length,
+              itemBuilder: (context, index) {
+                return CustomListItem(
+                    title: taskList[index].title,
+                    status: taskList[index].status,
+                    dueDate: taskList[index].dueDate);
+              },
+            ),
+            // ),
+
             Center(
               child: Container(
                 width: 250,
@@ -81,8 +80,11 @@ class _TodoListState extends State<TodoList> {
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(context,
-                      //     // MaterialPageRoute(builder: (context) => addTask()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AddTask()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -101,41 +103,49 @@ class _TodoListState extends State<TodoList> {
             ),
           ],
         ),
+      
+      ),
       ),
     );
   }
 }
 
-class TodoListItem extends StatelessWidget {
-  TodoListItem(
-      {super.key,
-      required this.title,
-      required this.leading,
-      required this.color,
-      required this.dueDate});
+class CustomListItem extends StatelessWidget {
+  final String title;
+  final bool status;
+  final String dueDate;
 
-  String title;
-  String leading;
-  Color color;
-  String dueDate;
+  CustomListItem({
+    required this.title,
+    required this.status,
+    required this.dueDate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          child: Text("$leading"),
+          backgroundColor: Colors.white,
+          child: Text(
+            title[0],
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
         ),
-        title: Text('$title'),
+        title: Text(title),
         trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text("$dueDate"),
-           Container(
-          margin: EdgeInsets.only(top: 3),
-          color: color,
-          // height: 50,
-          // width: 5,
-            )
+            Text(dueDate),
+            Container(
+              margin: const EdgeInsets.only(left: 8),
+              height: 50,
+              width: 5,
+              color: status == true ? Colors.green : Colors.red,
+            ),
           ],
         ),
       ),

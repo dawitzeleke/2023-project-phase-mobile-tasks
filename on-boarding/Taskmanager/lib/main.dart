@@ -5,7 +5,7 @@ import 'addTask.dart';
 import 'onboarding.dart';
 void main() {
   runApp(
-    TaskDetailPage()
+    const OnBoardingPage()
   );
 }
 

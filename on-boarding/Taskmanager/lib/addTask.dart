@@ -16,149 +16,161 @@ class _AddTaskState extends State<AddTask> {
 
   TaskController taskcontroller = TaskController();
 
-  void addTask(){
-    Task newTask = Task(title: taskName, description: description, dueDate: dueDate, status: false);
-    taskcontroller.taskManager.addTask(newTask);
-    taskcontroller.taskManager.viewAllTasks();
+  void addTask() {
+    Task newTask = Task(
+        id: "1",
+        title: taskName,
+        description: description,
+        dueDate: dueDate,
+        status: false);
+    Navigator.pop(context, newTask);
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Add Task",
-      home: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        appBar: _commonappbar(),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(19),
-                child: const Text(
-                  "Create new task",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                  textAlign: TextAlign.center,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.red,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(19),
+              child: const Text(
+                "Create new task",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Divider(),
+            Container(
+              padding: const EdgeInsets.only(left: 35.0, top: 20),
+              alignment: Alignment.topLeft,
+              child: const Text(
+                "Main task name",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
               ),
-              const Divider(),
-              Container(
-                padding: const EdgeInsets.only(left: 35.0, top: 20),
-                alignment: Alignment.topLeft,
-                child: const Text(
-                  "Main task name",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 17.5, top: 10, right: 17.5),
-                child: TextField(
-                  onChanged:(value) {
-                    setState(() {
-                      taskName = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 10, right: 17.5),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    taskName = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    hintText: 'Enter your main task',
-                    // border: InputBorder.none,
-                    // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-                  ),
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  hintText: 'Enter your main task',
+                  // border: InputBorder.none,
+                  // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(left: 35.0, top: 20),
-                alignment: Alignment.topLeft,
-                child: const Text(
-                  "Due date",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 35.0, top: 20),
+              alignment: Alignment.topLeft,
+              child: const Text(
+                "Due date",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 17.5, top: 10, right: 17.5),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      dueDate = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 17.5, top: 10, right: 17.5),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    dueDate = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  hintText: 'Enter Due date',
+                  // border: InputBorder.none,
+                  // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                  suffixIcon: IconButton(
+                    icon: const Icon(
+                      Icons.calendar_today,
+                      color: Colors.red,
                     ),
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    hintText: 'Enter Due date',
-                    // border: InputBorder.none,
-                    // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-                    suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.calendar_today,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {},
-                    ),
+                    onPressed: () {},
                   ),
                 ),
               ),
-
-              Container(
-                padding: const EdgeInsets.only(left: 35.0, top: 20),
-                alignment: Alignment.topLeft,
-                child: const Text(
-                  "Description",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 35.0, top: 20),
+              alignment: Alignment.topLeft,
+              child: const Text(
+                "Description",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
               ),
-
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 17.5, top: 10, right: 17.5, bottom: 40),
-                child: TextField(
-                  onChanged: (value) {
-                    description = value;
-                  },
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-                    border: OutlineInputBorder(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 17.5, top: 10, right: 17.5, bottom: 40),
+              child: TextField(
+                onChanged: (value) {
+                  description = value;
+                },
+                maxLines: null,
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                  border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    hintText: 'Enter Description',
-                    // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-                   
-                  ),
+                      borderSide: BorderSide.none),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  hintText: 'Enter Description',
+                  // contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
                 ),
               ),
-              
-              Center(
+            ),
+            Center(
               child: Container(
                 width: 150,
                 height: 40,
@@ -180,30 +192,9 @@ class _AddTaskState extends State<AddTask> {
                     )),
               ),
             ),
-            ],
-          ),
+          ],
         ),
       ),
     );
   }
 }
-
-
-AppBar _commonappbar() {
-    return AppBar(
-        backgroundColor: Colors.white,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Colors.red,
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      );
-  }

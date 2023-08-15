@@ -5,8 +5,19 @@ import 'addTask.dart';
 import 'onboarding.dart';
 void main() {
   runApp(
-    const OnBoardingPage()
+    MyApp()
   );
+
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: OnBoardingPage(),
+    );
+  }
+}
 

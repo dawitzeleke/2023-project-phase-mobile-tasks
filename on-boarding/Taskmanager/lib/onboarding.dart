@@ -20,6 +20,7 @@ class OnBoardingPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 70.0),
               child: ElevatedButton(
+                
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
